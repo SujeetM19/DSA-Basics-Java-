@@ -5,20 +5,29 @@ public class Main{
 
 public static void main(String[] args) throws Exception {
     // write your code here
-    Scanner scn = new Scanner(System.in);
-    int n = scn.nextInt();
-    int array[] = new int[n];
-    int max = -1000000; int min = 100000000;
-    for(int i=0; i<n;i++){
-        int num = scn.nextInt();
-        if(num>max){
-            max = num;
+    Scanner scan = new Scanner(System.in);
+    int n = scan.nextInt();
+
+    int arr[] = new int[n];
+    for(int i=0; i<arr.length; i++){
+        arr[i] = scan.nextInt();
+    }
+    
+    
+    int max = arr[0];
+    int min =  arr[0];
+    
+    for(int i=1; i<arr.length; i++){
+        if(arr[i]>max){
+            max = arr[i];
         }
-        else if(num<min){
-            min = num;
+        
+        else if(arr[i]<min){
+            min = arr[i];
         }
     }
-    System.out.print(max-min);
+    
+    System.out.println(max-min);
  }
 
 }
