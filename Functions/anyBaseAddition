@@ -14,32 +14,35 @@ import java.util.*;
   
    public static int getSum(int b, int n1, int n2){
        // write ur code here
-       int ans =0;
-       int multiples = 1;
-       int result = 0;
-       int carry = 0;
-       int last = 1;
-       while(n1!=0 || n2!=0 || last!=0){
-          ans = (n1%10 + n2%10 + carry);
-          if(n1==0 && n2==0){
-              last=0;
-          }
-          carry = 0;
-          if(ans>b-1){
-           carry = 1;
-           ans = ans%b;
+       int carry=0;
+       int sum=0;
+       int ans=0;
+       int power = 1;
+     
+       while(n1>=0 || n2>=0){
+           sum = (n1%10) + (n2%10) + carry;
+           
+           carry = 0;
+           
+           if(sum>b-1){
+               sum = sum - b;
+               carry = 1;
            }
-           ans *= multiples;
-           result += ans;
-           //System.out.println(ans);
-           //System.out.println(carry);
+           
+           ans += sum * power;
+           power *= 10;
+           //System.out.println(sum);
+           
+           if(n1==0 && n2==0){
+               break;
+           }
+           
            n1/=10;
-          n2/=10;
-          multiples *= 10;
+           n2/=10;
+           
           
        }
-       return result;
-        
-  }
-  
+       
+       return ans;
+   }
   }
