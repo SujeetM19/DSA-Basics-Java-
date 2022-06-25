@@ -1,0 +1,60 @@
+import java.util.*;
+
+public class Main{
+
+public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    int b = scn.nextInt();
+    int n1 = scn.nextInt();
+    int n2 = scn.nextInt();
+
+    int d = getProduct(b, n1, n2);
+    System.out.println(d);
+ }
+
+ 
+ public static int getProduct(int b, int n1, int n2){
+     // write your code here
+     
+     int ans =0;
+     int carry= 0;
+     int row_power = 1;
+     int ld2,ld1;
+     int n1_copy = n1;
+     
+     
+     while(n2!=0){
+         int power = 1;
+         int sum = 0; 
+         ld2 = n2%10;
+         n1 = n1_copy;
+         //System.out.println(ld2);
+         while(n1!=0 || carry!=0){
+             ld1 = n1%10;
+             sum = ld2*ld1 + carry;
+             carry= 0;
+             if(sum>b-1){
+                 carry =sum/b;
+                 sum = sum%b;
+                 
+             }
+             
+             ans += sum*power*row_power;
+             
+             power*=10;
+             //System.out.println(sum);
+             
+             n1/=10;
+         }
+         
+         //System.out.println(ans);
+         row_power*=10;
+         n2/=10;
+         
+     }
+     
+     return ans;
+    
+ }
+
+}
