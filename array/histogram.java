@@ -25,24 +25,16 @@ public static void main(String[] args) throws Exception {
     //System.out.print(max);
     //System.out.print(max_index);
     
-    for(int i=0; i<max; i++){  // j=0 -> 6
-        for(int j=0; j<max_index; j++){   //i=0 -> 2      3 baar
-            if(max-i <= a[j]){             // 7 - 0 < 3  false , true hoga jab 
-                System.out.print("*");
-            }
-            System.out.print("\t");
-        }
-    
-        System.out.print("*\t");
+    for(int i=1; i<=max; i++){  // j=0 -> 6
         
-        for(int j=max_index + 1; j<n; j++){
-            if(max-i <= a[j]){
+        for(int j=0; j<n; j++){
+            if(max-i < a[j]){
                 System.out.print("*");
             }
             System.out.print("\t");
         }
     
-        System.out.println("");
+    System.out.println();
     
     }
     
