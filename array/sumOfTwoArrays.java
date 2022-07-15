@@ -51,35 +51,23 @@ public class sumOfTwoArrays {
         // System.out.println("Max : " + max);
 
         while(i>0 || j>0 || carry==1){
-            // System.out.println(first);
-            // System.out.println(second);
-            value = (first + second + carry)%10;
-            carry = (first + second + carry)/10;
-            //System.out.println("Value : " + value + "  Carry : " +carry);
+            value = 0;
+            if(i>=0){
+                value += a1[i];
+            }
+            if(j>=0){
+                value += a2[j];
+            }
+            value += carry;
             
-            a3[k] = value;
+            a3[k] = value%10;
+            carry = value/10;
 
 
             //System.out.println("i : "+ i + " " + "j : " + j);
             i--;
             j--;
             k--;
-
-            //System.out.println();
-            if(i<0){
-                first = 0;
-            }
-            else{
-                first = a1[i];
-            }
-
-            if(j<0){
-                second = 0;
-            }
-            else{
-                second = a2[j];
-            }
-            // System.out.println();
 
         }
 
