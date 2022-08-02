@@ -56,11 +56,7 @@
 // 14
 
 
-
-
-public class stateOfWakanda2 {
-    
-}import java.io.*;
+import java.io.*;
 import java.util.*;
 
 public class Main {
@@ -78,18 +74,16 @@ public class Main {
         }
         
         for(int diag=0; diag<n; diag++){//for number of diagonals
-            
-            for(int j=0; j<n;j++){//row
-                for(int k=0; k<n; k++){//column
-                    if(k-j==diag){
-                        System.out.println(arr[j][k]);
-                    }
-                }
+        
+            int i=0;  int j=diag;
+            while(i<n && j<n){
+                System.out.println(arr[i][j]);
+                i++;
+                j++;
+                
             }
             
         }
-        
-        
         
     }
 
