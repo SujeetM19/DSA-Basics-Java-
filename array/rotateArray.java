@@ -9,16 +9,12 @@
 
 
 
-public class rotateArray {
-    
-}
-
 
 
 import java.io.*;
 import java.util.*;
 
-public class Main{
+public class rotateArray{
   public static void display(int[] a){
     StringBuilder sb = new StringBuilder();
 
