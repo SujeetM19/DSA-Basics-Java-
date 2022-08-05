@@ -21,6 +21,11 @@
 
 
 
+
+
+
+
+
 import java.io.*;
 import java.util.*;
 
@@ -41,112 +46,97 @@ public class Main {
             }
         }
         
-        int shellNo = scn.nextInt();
-        int rotateNo = scn.nextInt();
+        int s= scn.nextInt();
+        int r = scn.nextInt();
         
         
-        int [] space = new int [2*n + 2*m - 4*shellNo -4];
+        
+        //step1 :- fill 1D  array from 2 D
+        int rmin = s-1;
+        int rmax = n-s;
+        int cmin = s-1;
+        int cmax = m-s;
+        
+        int [] space = new int [2*(rmax - rmin) + 2*(cmax - cmin)];
         int space_index = 0;
          
         
-        
-        // System.out.print(shellNo+ " " + rotateNo);
-        
-        //selecting the second shell ans storing the elements of second shellin another array;
-       
-        
-        // for(int i=0; i<space_index; i++){
-        //     System.out.print(space[i] + " ");
-        // }
-        
-        
         ///space is our new array that has elements od shell
         
-        for(int i=shellNo-1; i<=n-shellNo; i++){
-            space[space_index] = arr[i][shellNo-1];
+        for(int i=rmin; i<=rmax; i++){
+            space[space_index] = arr[i][cmin];
             space_index++;
         }
+        cmin ++;
         
-        for(int j=shellNo; j<=m-shellNo; j++){
-            space[space_index] = arr[n-shellNo][j];
+        for(int j=cmin; j<=cmax; j++){
+            space[space_index] = arr[rmax][j];
             space_index++;
         }
+        rmax--;
         
-        for(int i=n-shellNo-1; i>=shellNo-1; i--){
-            space[space_index] = arr[i][m-shellNo];
+        for(int i=rmax; i>=rmin; i--){
+            space[space_index] = arr[i][cmax];
             space_index++;
         }
+        cmax--;
         
-        for(int j=m-shellNo-1; j>shellNo-1; j--){
-            space[space_index] = arr[shellNo-1][j];
+        for(int j=cmax; j>=cmin; j--){
+            space[space_index] = arr[rmin][j];
             space_index++;
+        }
+        rmin--;
+        
+        
+        
+        r = r% space.length;
+        
+        if(r<0){
+            r+= space.length;
         }
         
         
-        //shufflling in space
-        
-        int left = 0;
-        int right = space.length - rotateNo - 1;
-        int end = space.length - 1;
+        //rotating the 1D array using reverse function
         
         
-        // for(int i=0; i<space_index; i++){
-        //     System.out.print(space[i] + " ");
-        // }
+        space = reverse(space, 0 , space.length-1);
         
-        //  System.out.println();
+        space = reverse(space, 0 , r-1);
+        
+        space = reverse(space, r, space.length-1);
+        
+    //  //put the value again into array
+    
+        rmin = s-1;
+        rmax = n-s;
+        cmin = s-1;
+        cmax = m-s;
          
-        
-        space = reverse(space, left, right);
-        
-        
-        // for(int i=0; i<space_index; i++){
-        //     System.out.print(space[i] + " ");
-        // }
-        
-        // System.out.println();
-        
-        space = reverse(space, right + 1, end);
-        
-        // for(int i=0; i<space_index; i++){
-        //     System.out.print(space[i] + " ");
-        // }
-        
-        // System.out.println();
-        
-        space = reverse(space, left, end);
-        
-        
-            
-        // for(int i=0; i<space_index; i++){
-        //     System.out.print(space[i] + " ");
-        // }
-        
-        space_index =0;
-        
-        
-        
-        //put the value again into array
+        space_index = 0;
          
-        for(int i=shellNo-1; i<=n-shellNo; i++){
-             arr[i][shellNo-1] = space[space_index];
-             space_index++;
-        }
-        
-        for(int j=shellNo; j<=m-shellNo; j++){
-            arr[n-shellNo][j] = space[space_index];
+        for(int i=rmin; i<=rmax; i++){
+            arr[i][cmin] = space[space_index] ;
             space_index++;
         }
+        cmin ++;
         
-        for(int i=n-shellNo-1; i>=shellNo-1; i--){
-             arr[i][m-shellNo] = space[space_index];
+        for(int j=cmin; j<=cmax; j++){
+            arr[rmax][j] = space[space_index] ;
             space_index++;
         }
+        rmax--;
         
-        for(int j=m-shellNo-1; j>shellNo-1; j--){
-            arr[shellNo-1][j] = space[space_index];
+        for(int i=rmax; i>=rmin; i--){
+             arr[i][cmax] = space[space_index];
             space_index++;
         }
+        cmax--;
+        
+        for(int j=cmax; j>=cmin; j--){
+            arr[rmin][j] = space[space_index] ;
+            space_index++;
+        }
+        rmin--;
         
       display(arr);
         
@@ -167,21 +157,17 @@ public class Main {
     public static int[] reverse(int[] space, int left, int right){
         
         int temp;
-        for(int i=left; i<=(left+right)/2; i++){
-            temp = space[i];
-            space[i] = space[left + right-i];
-            space[left + right - i] = temp;
+        while(left<right){
+            temp = space[left];
+            space[left] = space[right];
+            space[right] = temp;
             
+            left++;
+            right--;
         }
         
         return space;
     }
-    
-    
-    
-    
-    
-    
     
 
 }
