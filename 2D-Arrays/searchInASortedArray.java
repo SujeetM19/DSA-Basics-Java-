@@ -9,7 +9,6 @@
 
 
 
-
 import java.io.*;
 import java.util.*;
 
@@ -29,15 +28,28 @@ public class Main {
         
         int num = scn.nextInt();
         boolean found = false;
+        int col = n-1;
+        int row = 0;
         
-        for(int i=0; i<n; i++){
-            for(int j=0; j<n; j++){
-                if(arr[i][j] == num){
-                    System.out.println(i);
-                    System.out.println(j);
-                    found = true;
-                }
+        
+        while(col>=0){
+            // System.out.print(arr[row][col] + " ");
+            if(arr[row][col] == num){
+                System.out.println(row);
+                System.out.println(col);
+                found = true;
+                return;
             }
+            //num ==43
+            
+            else if(arr[row][col] > num){
+                col--;
+            }
+            
+            else{
+                row++;
+            }
+            
         }
         
         if(found==false){
