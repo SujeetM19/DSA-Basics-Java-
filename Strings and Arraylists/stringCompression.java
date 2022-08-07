@@ -12,8 +12,6 @@
 
 
 
-
-
 import java.io.*;
 import java.util.*;
 
@@ -22,47 +20,41 @@ public class Main {
 	public static String compression1(String str){
 		// write your code here
 		String result = "";
-		for(int index = 0; index < str.length()-1; index++){
-		    if(str.charAt(index) != str.charAt(index+1)){
+		result += str.charAt(0);
+		for(int index = 1; index < str.length(); index++){
+		    if(str.charAt(index - 1) != str.charAt(index)){
 		        result += str.charAt(index);
 		    }
 		}
-		result += str.charAt(str.length()-1);
 
 		return result;
 	}
 
 	public static String compression2(String str){
 	    int count = 1;
-	    String result = "";
+	    String result = str.charAt(0) + "";
+	    
 		// write your code here
-		for(int index = 0; index < str.length()-1; index++){
+		for(int index = 1; index < str.length(); index++){
 		  //  count = 1;
-		    if(str.charAt(index) == str.charAt(index+1)){
+		    if(str.charAt(index-1) == str.charAt(index)){
 		        count++;
 		      //  System.out.println(count);
 		    }
 		    
 		    else{
-		        result += str.charAt(index);
-		        
 	            if(count>1){
-	                result += count;  
+	                result += count; 
 	            }
-		        count = 1;
+	            result += str.charAt(index);
+	            count = 1;
 		    }
 		}
 		
-		int i = str.length() -1;
-		int lastCount = 1;
-		while(str.charAt(i)== str.charAt(i-1)){
-		    lastCount ++;
-		  //  System.out.println(lastCount);
-		    i--;
+		if(count>1){
+		    result += count;
 		}
 		
-		result += str.charAt(i);
-		result += lastCount;
 
 		return result;
 	}
