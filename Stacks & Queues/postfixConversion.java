@@ -20,9 +20,6 @@
 
 
 
-
-
-
 import java.io.*;
 import java.util.*;
 
@@ -46,55 +43,66 @@ public class Main{
     }
     
     
+    public static String postfix_operation(String op1, String op2, String opn){
+        return op1 + op2 + opn;
+    }
+    
+    
     public static String postfix(String exp){
         
-            Stack<Character> st1 = new Stack<>();
-            Stack<Character> st2 = new Stack<>();
-            String ans1 = "";
-            for(int i=0; i<exp.length(); i++){
-                
-                // System.out.println(st1);
-                // System.out.println(st2);
-                
-                char ch = exp.charAt(i);
-                if(ch == '('){
-                    st2.push(ch);
-                }
-                
-                else if(ch>='a' && ch<='z'){
-                    st1.push(ch);
-                    ans1 += ch;
-                }
-                else if(ch=='+' || ch=='-' || ch=='/' || ch=='*'){
-                    while(st2.size()>0 && precedence(st2.peek())>=precedence(ch)){
-                        char opn_popped = st2.pop();
-                        st1.push(opn_popped);
-                        ans1 += opn_popped;
-                    }
-                    st2.push(ch);
-                }
-                
-                else if(ch == ')'){
-                    while(st2.peek() != '('){
-                        char opn_popped = st2.pop();
-                        st1.push(opn_popped);
-                        ans1+=opn_popped;
-                    }
-                    st2.pop();
-                }
-                
-            }
-            
-            while(st2.size() != 0){
-                char opn_left = st2.pop();
-                st1.push(opn_left);
-                ans1+= opn_left;
-            }
-            
+        String ans1;
+        Stack<String> st1 = new Stack<>();
+        Stack<Character> st2 = new Stack<>();
+        
+        for(int i=0; i<exp.length(); i++){
             // System.out.println(st1);
-            // System.out.println(ans1);
+            // System.out.println(st2);
             
-            return ans1;   
+            char ch = exp.charAt(i);
+            
+            if(ch >= 'a' && ch<='z'){
+                st1.push(ch + "");
+            }
+            
+            else if(ch == '('){
+                st2.push(ch);
+            }
+            
+            else if(ch == '+'|| ch == '-'|| ch == '*'|| ch == '/'){
+                while(st2.size() >0 && precedence(st2.peek()) >=  precedence(ch)){
+                    String opn = st2.pop() + "";
+                    String op2 = st1.pop() + "";
+                    String op1 = st1.pop() + "";
+                    String postfix = postfix_operation(op1, op2, opn);
+                    st1.push(postfix);
+                }
+                st2.push(ch);
+            }
+            
+            else if(ch == ')'){
+                while(st2.peek() != '('){
+                    String opn = st2.pop() + "";
+                    String op2 = st1.pop()+ "";
+                    String op1 = st1.pop() + "";
+                    String postfix = postfix_operation(op1, op2, opn);
+                    st1.push(postfix);
+                }
+                st2.pop();
+            }
+           
+        }
+        
+        while(st2.size() >0){
+            String opn = st2.pop() + "";
+            String op2 = st1.pop() + "";
+            String op1 = st1.pop() + "";
+            String postfix = postfix_operation(op1, op2, opn);
+            st1.push(postfix);
+        }
+        
+        ans1 = st1.pop();
+        return ans1;
+         
     }
     
     public static String prefix(String exp){
@@ -165,8 +173,4 @@ public static void main(String[] args) throws Exception {
     
  }
 }
-
-
-
-
 
