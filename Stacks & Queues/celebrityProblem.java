@@ -54,38 +54,59 @@ public class Main {
     }
 
     public static int findCelebrity(int[][] arr) {
+        Stack<Integer> st = new Stack<>();
+        
         for(int i=0; i<arr.length; i++){
-            boolean celebrity = true;
-            for(int j=0; j<arr[0].length;j++){
-                if(arr[i][j] == 1){
-                    celebrity = false;
-                    break;
-                }
-            }
-            
-            if(celebrity == true){
-                for(int k = 0; k<arr.length && k!=i; k++){
-                    if(arr[k][i] == 0){
-                        celebrity = false;
-                        break;
-                    }
-                }
-            }
-            
-            if(celebrity == true){
-                return i;
-            }
-            
+            st.push(i);
         }
         
+        while(st.size()>1){
+            int per1 = st.pop();
+            int per2 = st.pop();
+            
+            if(arr[per1][per2] == 1){
+                st.push(per2);
+            }
+            else{
+                st.push(per1);
+            }
+
+        }
         
-        return -1;
+        // System.out.println(st);
+        
+        int celebrity = st.peek();
+        
+        boolean ifCelebrity = true;
+        
+        
+        for(int i=0; i<arr[0].length; i++){
+            if(arr[celebrity][i] == 1){
+                ifCelebrity = false;
+            }
+        }
+        
+        // System.out.println(ifCelebrity);
+        
+        
+        for(int i=0; i<arr.length && i!=celebrity; i++){
+            if(arr[i][celebrity] == 0){
+                ifCelebrity = false;
+            }
+        }
+        
+        // System.out.println(ifCelebrity);
+        
+        if(ifCelebrity == true){
+            return celebrity;
+        } 
+        else {
+            return -1;
+        }
+        
     }
 
 }
-
-
-
 
 
 
