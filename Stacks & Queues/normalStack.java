@@ -70,7 +70,10 @@ public class Main {
 
   public static class CustomStack {
     int[] data;
-    int tos;
+    int tos;public rays {
+        
+    }
+    
 
     public CustomStack(int cap) {
       data = new int[cap];
