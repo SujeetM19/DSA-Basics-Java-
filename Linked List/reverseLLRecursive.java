@@ -1,19 +1,19 @@
 
-// Odd Even Linked List
+// Display Reverse (recursive) - Linked List
 
 // 1. You are given a partially written LinkedList class.
-// 2. You are required to complete the body of oddEven function. The function is expected to tweak the list such that all odd values are followed by all even values. The relative order of elements should not change. Also, take care of the cases when there are no odd or no even elements. Make sure to properly set head, tail and size as the function will be tested by calling addFirst and addLast.
+// 2. You are required to complete the body of displayReverse and displayReverseHelper functions. The function are expected to print in reverse the linked list without actually reversing it. 
+
 
 // Sample Input
-// 7
-// 2 8 9 1 5 4 3
-// 10
+// 11
+// 1 2 3 4 5 6 7 8 9 10 11
 // 100
+// 200
 // Sample Output
-// 2 8 9 1 5 4 3 
-// 9 1 5 3 2 8 4 
-// 10 9 1 5 3 2 8 4 100 
-
+// 1 2 3 4 5 6 7 8 9 10 11 
+// 11 10 9 8 7 6 5 4 3 2 1 
+// 200 1 2 3 4 5 6 7 8 9 10 11 100 
 
 
 
@@ -273,11 +273,11 @@ public class Main {
       return ml;
     }
 
-    public static Node midNode(Node head, Node tail){
+    public static Node midNode(Node head, Node tail) {
       Node f = head;
       Node s = head;
 
-      while(f != tail && f.next != tail){
+      while (f != tail && f.next != tail) {
         f = f.next.next;
         s = s.next;
       }
@@ -285,8 +285,8 @@ public class Main {
       return s;
     }
 
-    public static LinkedList mergeSort(Node head, Node tail){
-      if(head == tail){
+    public static LinkedList mergeSort(Node head, Node tail) {
+      if (head == tail) {
         LinkedList br = new LinkedList();
         br.addLast(head.data);
         return br;
@@ -298,15 +298,15 @@ public class Main {
       LinkedList sl = mergeTwoSortedLists(fsh, ssh);
       return sl;
     }
-  
-    public void removeDuplicates(){
+
+    public void removeDuplicates() {
       LinkedList res = new LinkedList();
 
-      while(this.size() > 0){
+      while (this.size() > 0) {
         int val = this.getFirst();
         this.removeFirst();
-        
-        if(res.size() == 0 || val != res.tail.data){
+
+        if (res.size() == 0 || val != res.tail.data) {
           res.addLast(val);
         }
       }
@@ -315,26 +315,85 @@ public class Main {
       this.tail = res.tail;
       this.size = res.size;
     }
-    
-    public void oddEven(){
-      int left = 0;
-      int idx = 0;
-      Node temp = head;
-      Node prev = null;
-      
-      while(temp!=null){
-          if(temp.data % 2 != 0){
-              addAt(left, temp.data);
-              temp = temp.next;
-              removeAt(idx+1);
-              left++;
-          }
-          else{
-              prev = temp;
-              temp = temp.next;
-          }
-          idx++;
+
+    public void oddEven() {
+      LinkedList odd = new LinkedList();
+      LinkedList even = new LinkedList();
+
+      while (this.size > 0) {
+        int val = this.getFirst();
+        this.removeFirst();
+
+        if (val % 2 == 0) {
+          even.addLast(val);
+        } else {
+          odd.addLast(val);
+        }
       }
+
+      if (odd.size > 0 && even.size > 0) {
+        odd.tail.next = even.head;
+
+        this.head = odd.head;
+        this.tail = even.tail;
+        this.size = odd.size + even.size;
+      } else if (odd.size > 0) {
+        this.head = odd.head;
+        this.tail = odd.tail;
+        this.size = odd.size;
+      } else if (even.size > 0) {
+        this.head = even.head;
+        this.tail = even.tail;
+        this.size = even.size;
+      }
+    }
+
+    public void kReverse(int k) {
+      LinkedList prev = null;
+
+      while (this.size > 0) {
+        LinkedList curr = new LinkedList();
+
+        if (this.size >= k) {
+          for (int i = 0; i < k; i++) {
+            int val = this.getFirst();
+            this.removeFirst();
+            curr.addFirst(val);
+          }
+        } else {
+          int sz = this.size;
+          for (int i = 0; i < sz; i++) {
+            int val = this.getFirst();
+            this.removeFirst();
+            curr.addLast(val);
+          }
+        }
+
+        if (prev == null) {
+          prev = curr;
+        } else {
+          prev.tail.next = curr.head;
+          prev.tail = curr.tail;
+          prev.size += curr.size;
+        }
+      }
+
+      this.head = prev.head;
+      this.tail = prev.tail;
+      this.size = prev.size;
+    }
+
+    private void displayReverseHelper(Node node){
+        if(node == null){
+           return;
+        }
+      displayReverseHelper(node.next);
+      System.out.print(node.data + " ");
+    }
+
+    public void displayReverse(){
+      displayReverseHelper(head);
+      System.out.println();
     }
   }
 
@@ -348,18 +407,20 @@ public class Main {
       int d = Integer.parseInt(values1[i]);
       l1.addLast(d);
     }
-
+    
     int a = Integer.parseInt(br.readLine());
     int b = Integer.parseInt(br.readLine());
 
     l1.display();
-    l1.oddEven();
-    l1.display();
-    l1.addFirst(a);
-    l1.addLast(b);
+    l1.displayReverse();
+    l1.addLast(a);
+    l1.addFirst(b);
     l1.display();
   }
 }
+
+
+
 
 
 
