@@ -1,7 +1,11 @@
-// Levelorder Linewise (generic Tree)
+
+
+
+
+// Levelorder Linewise Zig Zag  -> Brute force  using a stack
 
 // 1. You are given a partially written GenericTree class.
-// 2. You are required to complete the body of levelorderLineWise function. The function is expected to visit every node in "levelorder fashion" and print them from left to right (level by level). All nodes on same level should be separated by a space. Different levels should be on separate lines
+// 2. You are required to complete the body of levelorderLineWiseZZ function. The function is expected to visit every node in "levelorder fashion" but in a zig-zag manner i.e. 1st level should be visited from left to right, 2nd level should be visited from right to left and so on. All nodes on same level should be separated by a space. Different levels should be on separate lines.
 
 
 // Sample Input
@@ -9,9 +13,10 @@
 // 10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
 // Sample Output
 // 10 
-// 20 30 40 
+// 40 30 20 
 // 50 60 70 80 90 100 
-// 110 120
+// 120 110
+
 
 
 
@@ -108,28 +113,48 @@ public class Main {
     System.out.println("Node Post " + node.data);
   }
 
-  public static void levelOrderLinewise(Node node){
-    Queue<Node> q = new ArrayDeque<>();
-    Queue<Node> cq = new ArrayDeque<>();
-    q.add(node);
+  public static void levelOrderLinewiseZZ(Node node){
+      //strategy -> r p a (remove print add-child)
+      boolean odd = false;
+      Queue<Node> q= new ArrayDeque<>();
+      Queue<Node> cq = new ArrayDeque<>();
+      q.add(node);
+      int count = 0;
+     
+      while(q.size() > 0 || cq.size() > 0){
+          if(count%2==1){
+              Stack<Integer> st = new Stack<>();
+              while(q.size()>0){
+                  Node first = q.remove();
+                  st.push(first.data);
+                  for(Node child:first.children){
+                      cq.add(child);
+                  }
+                  
+              }
+              
+              while(st.size()>0){
+                  System.out.print(st.pop() + " ");
+              }
+                
+          }
+          else{
+              while(q.size()>0){
+                  Node first = q.remove();
+                  System.out.print(first.data + " ");
+                  for(Node child:first.children){
+                      cq.add(child);
+                  }
+              }
+          }
+
+          q = cq;
+          cq = new ArrayDeque<>();
+          System.out.println();
+          count++;
+
+      }
     
-    while(q.size() >0 || cq.size()>0){
-        
-        //Remove print Add (add in the new list and change it again when q is empty)
-        node = q.remove();
-        System.out.print(node.data + " ");
-        
-        for(Node child: node.children){
-            cq.add(child);
-        }
-        
-        if(q.size() == 0){
-            System.out.println();
-            q = cq;
-            cq = new ArrayDeque<>();
-        }
-        
-    }
   }
 
   public static void main(String[] args) throws Exception {
@@ -142,9 +167,12 @@ public class Main {
     }
 
     Node root = construct(arr);
-    levelOrderLinewise(root);
+    levelOrderLinewiseZZ(root);
   }
 
 }
+
+
+
 
 
