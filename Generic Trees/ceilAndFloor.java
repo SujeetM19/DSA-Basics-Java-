@@ -1,18 +1,18 @@
-// Predecessor And Successor Of An Element
+
+
+// Ceil And Floor In Generic Tree
 
 // 1. You are given a partially written GenericTree class.
-// 2. You are required to find the preorder predecessor and successor of a given element. 
+// 2. You are required to find the ceil and floor value of a given element. Use the "travel and change" strategy explained in the earlier video. The static properties - ceil and floor have been declared for you. You can declare more if you want. If the element is largest ceil will be largest integer value (32 bits), if element is smallest floor will be smallest integer value (32 bits)
 
 
 // Sample Input
 // 24
 // 10 20 -50 -1 60 -1 -1 30 70 -1 -80 110 -1 -120 -1 -1 90 -1 -1 40 -100 -1 -1 -1
-// -120
+// 70
 // Sample Output
-// Predecessor = 110
-// Successor = 90
-
-
+// CEIL = 90
+// FLOOR = 60
 
 
 
@@ -62,23 +62,22 @@ public class Main {
     return root;
   }
 
-  static Node predecessor;
-  static Node successor;
-  static ArrayList<Node> elem = new ArrayList<>();
-  static int idx;
-  static int count = 0;
   
-  public static void predecessorAndSuccessor(Node node, int data) {
-    if(node.data == data){
-        idx = count;
+  static int ceil;
+  static int floor;
+  public static void ceilAndFloor(Node node, int data) {
+      
+    if(node.data < data){
+        floor = Math.max(floor, node.data);
     }
-    
-    elem.add(node);
-    count++;
+    else if(node.data > data){
+        ceil = Math.min(ceil, node.data);
+    }
     
     for(Node child: node.children){
-        predecessorAndSuccessor(child, data);
+        ceilAndFloor(child, data);
     }
+    
   }
 
   public static void main(String[] args) throws Exception {
@@ -93,33 +92,11 @@ public class Main {
     int data = Integer.parseInt(br.readLine());
 
     Node root = construct(arr);
-    predecessor = null;
-    successor = null;
-    predecessorAndSuccessor(root, data);
-    
-    if(idx == 0){
-        successor = elem.get(idx+1);
-    }
-    else if(idx == elem.size() - 1){
-        predecessor = elem.get(idx - 1);
-    }
-    else{
-        predecessor = elem.get(idx - 1);
-        successor = elem.get(idx+1);
-    }
-    
-    
-    if(predecessor == null){
-      System.out.println("Predecessor = Not found");
-    } else {
-      System.out.println("Predecessor = " + predecessor.data);
-    }
-
-    if(successor == null){
-      System.out.println("Successor = Not found");
-    } else {
-      System.out.println("Successor = " + successor.data);
-    }
+    ceil = Integer.MAX_VALUE;
+    floor = Integer.MIN_VALUE;
+    ceilAndFloor(root, data);
+    System.out.println("CEIL = " + ceil);
+    System.out.println("FLOOR = " + floor);
   }
 
 }
